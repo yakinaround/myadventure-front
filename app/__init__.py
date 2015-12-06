@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, redirect
 import os
 
 app = Flask(__name__, static_folder=os.getcwd() + '/app/static', static_url_path='', template_folder=os.getcwd() + '/app/templates')
@@ -22,4 +22,9 @@ def page_not_found(e):
 def internal_error(e):
     """Return a custom 500 error."""
     return 'Sorry, unexpected error: {}'.format(e), 500
+
+
+@app.route('/')
+def index():
+    return redirect('/index.html')
 
