@@ -1,3 +1,11 @@
-bson
-flask
-Flask-OAuthlib
+Flask==0.10.1
+Jinja2==2.7.3
+MarkupSafe==0.23
+Werkzeug==0.10.1
+httplib2==0.9
+itsdangerous==0.24
+wsgiref==0.1.2
+wtforms>=2.0.0
+flask-wtf==0.11
+oauthlib==0.7.2
+Flask-OAuthlib>=0.5.0
