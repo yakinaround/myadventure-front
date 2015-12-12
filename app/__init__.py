@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, abort
 import os
 
 from app.mod_index.controllers import mod_index
@@ -25,6 +25,11 @@ def page_not_found(e):
 def internal_error(e):
     """Return a custom 500 error."""
     return 'Sorry, unexpected error: {}'.format(e), 500
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return abort(404)
 
 # Registering module blueprints
 app.register_blueprint(mod_index)
