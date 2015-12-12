@@ -18,10 +18,10 @@ remote = oauth.remote_app(
     consumer_key=CLIENT_ID,
     consumer_secret=CLIENT_SECRET,
     request_token_params={'scope': 'email'},
-    base_url='http://api.myadventure.dev:5001/api/v1',
+    base_url='http://api.myadventure.dev:5000/api/v1',
     request_token_url=None,
-    access_token_url='http://api.myadventure.dev:50001/oauth/token',
-    authorize_url='http://api.myadventure.dev:5001/oauth/authorize',
+    access_token_url='http://api.myadventure.dev:5000/oauth/token',
+    authorize_url='http://api.myadventure.dev:5000/oauth/authorize',
     access_token_method='POST'
 )
 

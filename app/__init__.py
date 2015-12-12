@@ -1,7 +1,8 @@
 from flask import Flask, render_template, abort
 import os
+import requests
 
-from app.mod_api.controllers import remote
+from app.mod_api import _url
 
 app = Flask(__name__, static_folder=os.getcwd() + '/app/static', static_url_path='', template_folder=os.getcwd() + '/app/templates')
 
@@ -28,9 +29,10 @@ def internal_error(e):
 
 @app.route('/<adventure_slug>')
 def map(adventure_slug):
-    adventure = remote.get('/adventure/' + adventure_slug)
+    r = requests.get(_url('/adventure/' + adventure_slug))
+    adventure = r.json()
     print adventure
-    return render_template('map.html', adventure=adventure_slug, title='MyAdventure', api_url='http://api.myadventure.dev:5001')
+    return render_template('map.html', adventure=adventure_slug, title=adventure['name'], api_url='http://api.myadventure.dev:5000/api/v1')
 
 
 @app.route('/')
