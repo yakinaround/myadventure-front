@@ -31,7 +31,6 @@ def internal_error(e):
 def map(adventure_slug):
     r = requests.get(_url('/adventure/' + adventure_slug))
     adventure = r.json()
-    print adventure
     return render_template('map.html', adventure=adventure_slug, title=adventure['name'], api_url='http://api.myadventure.dev:5000/api/v1')
 
 
