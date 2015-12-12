@@ -1,0 +1,4 @@
+"""
+Initialize map module
+
+"""

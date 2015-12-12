@@ -1,8 +1,8 @@
-from flask import Flask, render_template, abort
+from flask import Flask
 import os
-import requests
 
-from app.mod_api import _url
+from app.mod_index.controllers import mod_index
+from app.mod_map.controllers import mod_map
 
 app = Flask(__name__, static_folder=os.getcwd() + '/app/static', static_url_path='', template_folder=os.getcwd() + '/app/templates')
 
@@ -26,15 +26,6 @@ def internal_error(e):
     """Return a custom 500 error."""
     return 'Sorry, unexpected error: {}'.format(e), 500
 
-
-@app.route('/<adventure_slug>')
-def map(adventure_slug):
-    r = requests.get(_url('/adventure/' + adventure_slug))
-    adventure = r.json()
-    return render_template('map.html', adventure=adventure_slug, title=adventure['name'], api_url='http://api.myadventure.dev:5000/api/v1')
-
-
-@app.route('/')
-def index():
-    return abort(404)
-
+# Registering module blueprints
+app.register_blueprint(mod_index)
+app.register_blueprint(mod_map)
