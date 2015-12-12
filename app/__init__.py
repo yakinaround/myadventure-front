@@ -1,4 +1,4 @@
-from flask import Flask, redirect
+from flask import Flask, render_template, abort
 import os
 
 app = Flask(__name__, static_folder=os.getcwd() + '/app/static', static_url_path='', template_folder=os.getcwd() + '/app/templates')
@@ -24,7 +24,12 @@ def internal_error(e):
     return 'Sorry, unexpected error: {}'.format(e), 500
 
 
+@app.route('/<adventure_slug>')
+def map(adventure_slug):
+    return render_template('map.html', adventure=adventure_slug, title='MyAdventure', api_url='http://api.myadventure.dev:5001')
+
+
 @app.route('/')
 def index():
-    return redirect('/index.html')
+    return abort(404)
 

@@ -17,13 +17,14 @@
 	}
 
 	var defaultIcon = new L.Icon.Default(),
-			photoLayer = new L.layerGroup([]),
-			videoLayer = new L.layerGroup([]),
-			blogLayer = new L.layerGroup([]),
-			routeLayer = new L.layerGroup([]),
-			trackerLayer = new L.layerGroup([]),
-			charityLayer = new L.layerGroup([]),
-			messageLayer = new L.layerGroup([]);
+        photoLayer = new L.layerGroup([]),
+        videoLayer = new L.layerGroup([]),
+        blogLayer = new L.layerGroup([]),
+        routeLayer = new L.layerGroup([]),
+        trackerLayer = new L.layerGroup([]),
+        charityLayer = new L.layerGroup([]),
+        messageLayer = new L.layerGroup([]),
+        pointUrl = apiUrl + '/point/' + adventure;
 
 	var photoIcon = L.AwesomeMarkers.icon({
 		prefix: 'fa',
@@ -156,7 +157,7 @@
 	*/
 	function loadPoints() {
 
-		$.getJSON('http://api.myadventure.io/api/v1/point/video', function(points) {
+		$.getJSON(pointUrl + '/video', function(points) {
 			if(points.length > 0) {
 				$.each(points, function (index, point) {
 					if(!point['hide'] && point['latitude'] && point['longitude']) {
@@ -166,7 +167,7 @@
 			}
 		});
 
-		$.getJSON('http://api.myadventure.io/api/v1/point/photo', function(points) {
+		$.getJSON(pointUrl + '/photo', function(points) {
 			if(points.length > 0) {
 
 				var photoCluster = L.photo.cluster().on('click', function (event) {
@@ -204,7 +205,7 @@
 			}
 		});
 
-		$.getJSON('http://api.myadventure.io/api/v1/point/blog', function(points) {
+		$.getJSON(pointUrl + '/blog', function(points) {
 			if(points.length > 0) {
 				$.each(points, function (index, point) {
 					if(!point['hide'] && point['latitude'] && point['longitude']) {
@@ -214,7 +215,7 @@
 			}
 		});
 
-		$.getJSON('http://api.myadventure.io/api/v1/point/charity', function(points) {
+		$.getJSON(pointUrl + '/charity', function(points) {
 			if(points.length > 0) {
 				$.each(points, function (index, point) {
 					if(!point['hide'] && point['latitude'] && point['longitude']) {
@@ -224,7 +225,7 @@
 			}
 		});
 
-		$.getJSON('http://api.myadventure.io/api/v1/point/message', function(points) {
+		$.getJSON(pointUrl + '/message', function(points) {
 			if(points.length > 0) {
 				$.each(points, function (index, point) {
 					if(!point['hide'] && point['latitude'] && point['longitude']) {
@@ -234,7 +235,7 @@
 			}
 		});
 
-		$.getJSON('http://api.myadventure.io/api/v1/point/route', function(points) {
+		$.getJSON(pointUrl + '/route', function(points) {
 			if(points.length > 0) {
 
 				var route = new L.MarkerClusterGroup({
@@ -273,7 +274,7 @@
 			}
 		});
 
-		$.getJSON('http://api.myadventure.io/api/v1/point/tracker', function(points) {
+		$.getJSON(pointUrl + '/tracker', function(points) {
 			if(points.length > 0) {
 
 				var tracker = new L.MarkerClusterGroup({
