@@ -14,6 +14,5 @@ mod_index = Blueprint('index', __name__, url_prefix='')
 @mod_index.route('/')
 def index():
     r = requests.get(_url('/adventure'))
-    print r.json()
     adventures = r.json()
     return render_template('index.html', adventures=adventures['adventures'])
