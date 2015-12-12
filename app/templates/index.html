@@ -39,7 +39,7 @@
                 <h1>Latest Adventures</h1>
                 <ul>
                     {% for adventure in adventures %}
-                    <li><a href="/{{ adventure['slug'] }}">{{ adventure['name'] }}</a></li>
+                    <li><a href="/{{ adventure['_id'] }}">{{ adventure['name'] }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
