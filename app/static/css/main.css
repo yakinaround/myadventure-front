@@ -112,8 +112,14 @@ a:after {
 	padding-bottom: 50px;
 }
 
-.features .ac a{
+.features .ac a {
 	font-size: 20px;
+}
+
+.feature-title {
+    color: #3bc492;
+    font-size: 20px;
+    margin-bottom: 0px;
 }
 
 /* Showcase Wrap */
