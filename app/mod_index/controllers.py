@@ -13,6 +13,11 @@ mod_index = Blueprint('index', __name__, url_prefix='')
 
 @mod_index.route('/')
 def index():
+    return render_template('index.html')
+
+
+@mod_index.route('/recent')
+def recent():
     r = requests.get(_url('/adventure'))
     adventures = r.json()
-    return render_template('index.html', adventures=adventures['adventures'])
+    return render_template('recent.html', adventures=adventures['adventures'])
