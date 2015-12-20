@@ -1,4 +1,4 @@
-from flask import Flask, abort
+from flask import Flask
 import os
 
 from app.mod_index.controllers import mod_index
@@ -29,7 +29,7 @@ def internal_error(e):
 
 @app.route('/favicon.ico')
 def favicon():
-    return abort(404)
+    return app.send_static_file('img/map.ico')
 
 # Registering module blueprints
 app.register_blueprint(mod_index)
