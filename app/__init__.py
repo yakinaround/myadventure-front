@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 import os
 
 from app.mod_index.controllers import mod_index
@@ -18,7 +18,7 @@ def bad_request(e):
 @app.errorhandler(404)
 def page_not_found(e):
     """Return a custom 404 error."""
-    return 'Sorry, Nothing at this URL.', 404
+    return render_template('404.html')
 
 
 @app.errorhandler(500)
