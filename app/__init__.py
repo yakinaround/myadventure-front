@@ -3,6 +3,7 @@ import os
 
 from app.mod_index.controllers import mod_index
 from app.mod_map.controllers import mod_map
+from app.mod_api.controllers import mod_api
 
 app = Flask(__name__, static_folder=os.getcwd() + '/app/static', static_url_path='', template_folder=os.getcwd() + '/app/templates')
 
@@ -33,4 +34,5 @@ def favicon():
 
 # Registering module blueprints
 app.register_blueprint(mod_index)
+app.register_blueprint(mod_api)
 app.register_blueprint(mod_map)

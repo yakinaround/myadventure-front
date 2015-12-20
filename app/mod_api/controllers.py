@@ -3,38 +3,46 @@ controllers.py
 
 API module controllers.
 """
-from flask import Blueprint, url_for, request, current_app, session, jsonify
+from flask import Blueprint, url_for, request, session, jsonify, current_app
 from flask_oauthlib import client
 
 mod_api = Blueprint('api', __name__, url_prefix='')
 
 oauth = client.OAuth(current_app)
 
-CLIENT_ID = '1EssHrEXtGdmJHFQ2YEU1leNsHljVPZp1RmRsYDZ'
-CLIENT_SECRET = 'WtAikOHT38puo0FHhNrqYbCi6shLFSJjsmc2KVsms8i7utni1h'
+remote = None
 
-remote = oauth.remote_app(
-    'remote',
-    consumer_key=CLIENT_ID,
-    consumer_secret=CLIENT_SECRET,
-    request_token_params={'scope': 'email'},
-    base_url='http://api.myadventure.dev:5000/api/v1',
-    request_token_url=None,
-    access_token_url='http://api.myadventure.dev:5000/oauth/token',
-    authorize_url='http://api.myadventure.dev:5000/oauth/authorize',
-    access_token_method='POST'
-)
+
+@mod_api.before_app_first_request
+def register_remote():
+    global remote
+
+    remote = oauth.remote_app(
+        'remote',
+        consumer_key=current_app.config['API_CLIENT_ID'],
+        consumer_secret=current_app.config['API_CLIENT_SECRET'],
+        request_token_params={'scope': 'email'},
+        base_url=current_app.config['API_URL'] + '/api/v1',
+        request_token_url=None,
+        access_token_url=current_app.config['API_URL'] + '/oauth/token',
+        authorize_url=current_app.config['API_URL'] + '/oauth/authorize',
+        access_token_method='POST'
+    )
+
+    @remote.tokengetter
+    def get_oauth_token():
+        return session.get('remote_oauth')
 
 
 @mod_api.route('/login')
 def index():
     if 'remote_oauth' in session:
-        resp = remote.get('/user')
+        resp = remote.get('/api/v1/user')
         if resp.status != 401:
             return jsonify(resp.data)
     next_url = request.args.get('next') or request.referrer or None
     return remote.authorize(
-        callback=url_for('authorized', next=next_url, _external=True)
+        callback=url_for('.authorized', next=next_url, _external=True)
     )
 
 
@@ -48,12 +56,3 @@ def authorized():
         )
     session['remote_oauth'] = (resp['access_token'], '')
     return jsonify(oauth_token=resp['access_token'])
-
-
-@remote.tokengetter
-def get_oauth_token():
-    return session.get('remote_oauth')
-
-
-
-

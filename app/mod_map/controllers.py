@@ -17,4 +17,4 @@ def map(adventure_slug):
     if r.status_code == 404:
         abort(404)
     adventure = r.json()
-    return render_template('map.html', adventure=adventure_slug, title=adventure['name'], api_url='http://api.myadventure.dev:5000/api/v1')
+    return render_template('map.html', adventure=adventure_slug, title=adventure['name'], api_url=_url(''))

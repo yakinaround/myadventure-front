@@ -3,6 +3,9 @@ Initialize api module
 
 """
 
+from flask import current_app
+
 
 def _url(path):
-    return 'http://api.myadventure.dev:5000/api/v1' + path
+    return current_app.config['API_URL'] + '/api/v1' + path
+
