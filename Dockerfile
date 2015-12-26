@@ -39,10 +39,6 @@ RUN pip install supervisor-stdout
 ADD ./Docker/supervisord.conf /etc/supervisord.conf
 ADD ./Docker/nginx.conf /etc/nginx/nginx.conf
 
-# copy application
-ADD ./app /opt/app/app
-ADD ./config.py /opt/app/config.py
-
 # restart nginx to load the config
 RUN service nginx stop
 
