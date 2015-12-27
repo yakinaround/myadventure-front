@@ -354,7 +354,7 @@
 
 		L.control.layers(base, overlays, { collapsed: false, position: 'topright' }).addTo(map);
 
-		new L.Control.Zoom({ position: 'bottomleft' }).addTo(map);
+		new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
 
 		loadPoints();
 	}
@@ -364,6 +364,7 @@
 	*/
 	$( document ).ready(function() {
 		initialize();
+		$(".button-collapse").sideNav();
 	});
 
 })();
