@@ -32,11 +32,11 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="/#home" class="smothscroll">Home</a></li>
-                        <li><a href="/#features" class="smothScroll">Features</a></li>
-                        <li><a href="/#mobile" class="smothScroll">Mobile</a></li>
-                        <li><a href="/#maps" class="smothScroll">Maps</a></li>
-                        <li><a href="/#contact" class="smothScroll">Contact</a></li>
+                        <li {% if active_page == "index" %} class="active" {% endif %}><a href="{% if active_page != "index" %}/{% endif %}#home" class="smothscroll">Home</a></li>
+                        <li><a href="{% if active_page != "index" %}/{% endif %}#features" class="smothScroll">Features</a></li>
+                        <li><a href="{% if active_page != "index" %}/{% endif %}#mobile" class="smothScroll">Mobile</a></li>
+                        <li><a href="{% if active_page != "index" %}/{% endif %}#maps" class="smothScroll">Maps</a></li>
+                        <li><a href="{% if active_page != "index" %}/{% endif %}#contact" class="smothScroll">Contact</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
