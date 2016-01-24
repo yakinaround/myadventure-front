@@ -1,0 +1,28 @@
+html, body {
+    height: 100%;
+}
+
+#wrap {
+    min-height: 100%;
+}
+
+#main {
+    overflow: auto;
+    padding-bottom: 506px;
+}
+
+#footer {
+    position: relative;
+    margin-top: -506px;
+    height: 506px;
+    clear: both;
+}
+
+/*Opera Fix*/
+body:before {
+    content:"";
+    height:100%;
+    float:left;
+    width:0;
+    margin-top:-32767px;
+}
