@@ -171,9 +171,10 @@ a:after {
 
 /* Sign Up Button */
 
-#signup {
+.header-buttons button {
     width: 165px !important;
     height: 50px !important;
+    margin-bottom: 25px;
 }
 
 .header-title {
@@ -182,5 +183,5 @@ a:after {
 
 .header-buttons {
     padding-top: 100px;
-    padding-bottom: 50px;
+    padding-bottom: 25px;
 }
