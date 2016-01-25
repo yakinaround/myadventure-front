@@ -35,6 +35,6 @@ def favicon():
 
 # Registering module blueprints
 app.register_blueprint(mod_index)
-# app.register_blueprint(mod_api)
+app.register_blueprint(mod_api)
 app.register_blueprint(mod_map)
 app.register_blueprint(mod_facebook)

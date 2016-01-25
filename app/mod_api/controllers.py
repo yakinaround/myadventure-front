@@ -6,7 +6,7 @@ API module controllers.
 from flask import Blueprint, url_for, request, session, jsonify, current_app
 from flask_oauthlib import client
 
-mod_api = Blueprint('api', __name__, url_prefix='')
+mod_api = Blueprint('api', __name__, url_prefix='/api')
 
 oauth = client.OAuth(current_app)
 
@@ -31,18 +31,18 @@ def register_remote():
 
     @remote.tokengetter
     def get_oauth_token():
-        return session.get('remote_oauth')
+        return session.get('remote_token')
 
 
 @mod_api.route('/login')
-def index():
-    if 'remote_oauth' in session:
+def login():
+    if 'remote_token' in session:
         resp = remote.get('/api/v1/user')
         if resp.status != 401:
             return jsonify(resp.data)
-    next_url = request.args.get('next') or request.referrer or None
+    # next_url = request.args.get('next') or request.referrer or None
     return remote.authorize(
-        callback=url_for('.authorized', next=next_url, _external=True)
+        callback=url_for('.authorized', _external=True)
     )
 
 
@@ -54,5 +54,5 @@ def authorized():
             request.args['error_reason'],
             request.args['error_description']
         )
-    session['remote_oauth'] = (resp['access_token'], '')
-    return jsonify(oauth_token=resp['access_token'])
+    session['remote_token'] = (resp['access_token'], '')
+    return jsonify(remote_token=resp['access_token'])

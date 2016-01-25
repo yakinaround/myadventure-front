@@ -4,7 +4,7 @@ controllers.py
 Index module controllers.
 """
 import requests
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, url_for
 
 from app.mod_api import _url
 
