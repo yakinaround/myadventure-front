@@ -23,6 +23,6 @@ def recent():
     return render_template('recent.html', adventures=adventures['adventures'])
 
 
-@mod_index.route('/signup')
+@mod_index.route('/login')
 def signup():
-    return render_template('signup.html')
+    return render_template('login.html')

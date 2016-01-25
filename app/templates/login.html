@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Log In{% endblock %}
+
+{% block head %}
+    <link href="css/login.css" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+
+    <div class="container">
+        <br>
+        <div class="row centered">
+            <h1>Log In</h1>
+            <div class="col-md-6">
+                <div class="col-md-8 col-md-offset-2">
+                    <form role="form" action="/login" method="post" enctype="plain">
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" name="Email" class="form-control" id="email" placeholder="Your Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Your Password</label>
+                            <input type="password" name="Password" class="form-control" id="password" placeholder="Your Password">
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-success">LOGIN</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6 centered">
+                <button class="btn btn-success" id="fb-button">LOGIN WITH FACEBOOK</button>
+            </div>
+        </div>
+        <br>
+        <hr>
+        <div class="row centered">
+            <h1>Sign Up</h1>
+            <div class="col-md-4 col-md-offset-4">
+                <form role="form" action="/signup" method="post" enctype="plain">
+                    <div class="form-group">
+                        <label for="email">Your Email</label>
+                        <input type="email" name="Email" class="form-control" id="email" placeholder="Your Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Your Password</label>
+                        <input type="password" name="Password" class="form-control" id="password" placeholder="Your Password">
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-success">SIGN UP</button>
+                </form>
+            </div>
+        </div>
+        <br>
+    </div> <!--/ .container -->
+
+{% endblock %}

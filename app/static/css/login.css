@@ -1,0 +1,13 @@
+.vertical-line {
+    border-right: 1px solid #ccc;
+    margin-top: 1em;
+}
+
+form {
+    margin-top: 25px;
+    text-align: left;
+}
+
+#fb-button {
+    margin-top: 100px;
+}
