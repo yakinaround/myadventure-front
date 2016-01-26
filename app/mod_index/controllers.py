@@ -3,12 +3,13 @@ controllers.py
 
 Index module controllers.
 """
-import requests
-from flask import Blueprint, render_template, url_for
+from flask import Blueprint, render_template
 
-from app.mod_api import _url
+from app.mod_api.models import MyAdventure
 
 mod_index = Blueprint('index', __name__, url_prefix='')
+
+api = MyAdventure()
 
 
 @mod_index.route('/')
@@ -18,6 +19,5 @@ def index():
 
 @mod_index.route('/recent')
 def recent():
-    r = requests.get(_url('/adventure'))
-    adventures = r.json()
+    adventures = api.get('/adventure')
     return render_template('recent.html', adventures=adventures['adventures'])

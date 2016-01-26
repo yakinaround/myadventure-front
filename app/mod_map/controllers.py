@@ -6,15 +6,14 @@ Map module controllers.
 import requests
 from flask import Blueprint, render_template, abort
 
-from app.mod_api import _url
+from app.mod_api.models import MyAdventure
 
 mod_map = Blueprint('map', __name__, url_prefix='')
+
+api = MyAdventure()
 
 
 @mod_map.route('/<adventure_slug>')
 def map(adventure_slug):
-    r = requests.get(_url('/adventure/' + adventure_slug))
-    if r.status_code == 404:
-        abort(404)
-    adventure = r.json()
+    adventure = api.get('/adventure/' + adventure_slug)
     return render_template('map.html', adventure=adventure_slug, title=adventure['name'] + " - MyAdventure", api_url=_url(''))

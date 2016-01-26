@@ -1,51 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="MyAdventure - Share your adventures with the world.">
-    <meta name="author" content="MyAdventure.io">
-    <link rel="shortcut icon" href="favicon.ico">
+{% extends "base.html" %}
 
-    <title>MyAdventure</title>
+{% block title %}Recent{% endblock %}
 
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+{% block head %}
+{% endblock %}
 
-    <link href="css/main.css" rel="stylesheet">
-
-    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
-
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="js/smoothscroll.js"></script>
-
-
-</head>
-
-<body data-spy="scroll" data-offset="0" data-target="#navigation">
-
-<!-- fixed navbar -->
-<div id="navigation" class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/"><b>MyAdventure</b></a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="/#home" class="smothscroll">Home</a></li>
-                <li><a href="/#features" class="smothScroll">Features</a></li>
-                <li><a href="/#mobile" class="smothScroll">Mobile</a></li>
-                <li><a href="/#maps" class="smothScroll">Maps</a></li>
-                <li><a href="/#contact" class="smothScroll">Contact</a></li>
-            </ul>
-        </div><!--/.nav-collapse -->
-    </div>
-</div>
+{% block main %}
 
 <!-- features -->
 <div class="features">
@@ -75,47 +35,12 @@
         <br>
     </div> <!--/ .container -->
 </div>
+{% endblock %}
 
-<section id="contact" name="contact"></section>
-<div class="footer">
-    <div class="container">
-        <div class="col-lg-5">
-            <h3>Address</h3>
-            <p>
-                P.O. Box 321387<br/>
-                Los Gatos, CA<br/>
-                95032<br/>
-                United States
-            </p>
-        </div>
-
-        <div class="col-lg-7">
-            <h3>Drop Us A Line</h3>
-            <br>
-            <form role="form" action="#" method="post" enctype="plain">
-                <div class="form-group">
-                    <label for="name1">Your Name</label>
-                    <input type="name" name="Name" class="form-control" id="name1" placeholder="Your Name">
-                </div>
-                <div class="form-group">
-                    <label for="email1">Your Email</label>
-                    <input type="email" name="Mail" class="form-control" id="email1" placeholder="Enter email">
-                </div>
-                <div class="form-group">
-                    <label>Your Message</label>
-                    <textarea class="form-control" name="Message" rows="3"></textarea>
-                </div>
-                <br>
-                <button type="submit" class="btn btn-large btn-success">SUBMIT</button>
-            </form>
-        </div>
-    </div>
-</div>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script>
-    $('.carousel').carousel({
-        interval: 3500
-    })
-</script>
-</body>
-</html>
+{% block footer %}
+    <script>
+        $('.carousel').carousel({
+            interval: 3500
+        })
+    </script>
+{% endblock %}

@@ -3,15 +3,21 @@ controllers.py
 
 Login module controllers.
 """
+import logging
+
 from flask import Blueprint, render_template, redirect, request, abort, url_for
 from flask_login import login_user, LoginManager
 
-from app.mod_login.models import LoginForm
+from app.mod_login.forms import LoginForm
 from app.mod_user.models import get_user
+
+from app.mod_api.models import MyAdventure
 
 mod_login = Blueprint('login', __name__, url_prefix='')
 
 login_manager = LoginManager()
+
+api = MyAdventure()
 
 
 def next_is_valid(next):
@@ -56,6 +62,13 @@ def signup():
     if form.validate_on_submit():
         email = request.form.get('email')
         password = request.form.get('password')
+
+        res = api.post('/user/', {"email": email, "password": password})
+
+        api_user = res['user']
+        user = get_user(api_user['email'])
+        login_user(user)
+
         next = request.args.get('next')
 
         return redirect(next or url_for('index.index'))
