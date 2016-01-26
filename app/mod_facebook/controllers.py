@@ -7,7 +7,7 @@ from flask import Blueprint, url_for, request, session, Response, redirect, abor
 from flask_login import login_user
 from flask_oauthlib import client
 
-from app.mod_user import get_user
+from app.mod_user.models import get_user
 
 mod_facebook = Blueprint('facebook', __name__, url_prefix='/facebook')
 

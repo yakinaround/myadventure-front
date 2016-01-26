@@ -7,7 +7,7 @@ from flask import Blueprint, render_template, redirect, request, abort, url_for
 from flask_login import login_user, LoginManager
 
 from app.mod_login.models import LoginForm
-from app.mod_user import get_user
+from app.mod_user.models import get_user
 
 mod_login = Blueprint('login', __name__, url_prefix='')
 
