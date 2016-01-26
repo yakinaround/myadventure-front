@@ -3,7 +3,7 @@ controllers.py
 
 Facebook module controllers.
 """
-from flask import Blueprint, url_for, request, current_app, session, Response, redirect, abort
+from flask import Blueprint, url_for, request, session, Response, redirect, abort
 from flask_login import login_user
 from flask_oauthlib import client
 
@@ -11,24 +11,25 @@ from app.mod_user import get_user
 
 mod_facebook = Blueprint('facebook', __name__, url_prefix='/facebook')
 
-oauth = client.OAuth(current_app)
-
-facebook = None
+oauth = client.OAuth()
 
 
-@mod_facebook.before_app_first_request
-def register_facebook():
+@mod_facebook.record_once
+def register_facebook(state):
     global facebook
+
+    oauth.init_app(state.app)
+
     facebook = oauth.remote_app(
-        'facebook',
-        consumer_key=current_app.config['FACEBOOK_APP_ID'],
-        consumer_secret=current_app.config['FACEBOOK_APP_SECRET'],
-        request_token_params={'scope': 'email'},
-        base_url='https://graph.facebook.com',
-        request_token_url=None,
-        access_token_url='/oauth/access_token',
-        access_token_method='GET',
-        authorize_url='https://www.facebook.com/dialog/oauth'
+            'facebook',
+            consumer_key=state.app.config['FACEBOOK_APP_ID'],
+            consumer_secret=state.app.config['FACEBOOK_APP_SECRET'],
+            request_token_params={'scope': 'email'},
+            base_url='https://graph.facebook.com',
+            request_token_url=None,
+            access_token_url='/oauth/access_token',
+            access_token_method='GET',
+            authorize_url='https://www.facebook.com/dialog/oauth'
     )
 
     @facebook.tokengetter
