@@ -3,7 +3,6 @@ controllers.py
 
 Login module controllers.
 """
-import logging
 from flask import Blueprint, render_template, redirect, request, abort, url_for
 from flask_login import login_user, LoginManager
 
@@ -49,3 +48,15 @@ def login():
             return abort(401)
         return abort(400)
     return render_template('login.html', form=form)
+
+
+@mod_login.route('/signup', methods=['POST'])
+def signup():
+    form = LoginForm()
+    if form.validate_on_submit():
+        email = request.form.get('email')
+        password = request.form.get('password')
+        next = request.args.get('next')
+
+        return redirect(next or url_for('index.index'))
+    return abort(400)

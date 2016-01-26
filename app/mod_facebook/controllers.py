@@ -3,8 +3,11 @@ controllers.py
 
 Facebook module controllers.
 """
-from flask import Blueprint, url_for, request, current_app, session, Response, redirect
+from flask import Blueprint, url_for, request, current_app, session, Response, redirect, abort
+from flask_login import login_user
 from flask_oauthlib import client
+
+from app.mod_user import get_user
 
 mod_facebook = Blueprint('facebook', __name__, url_prefix='/facebook')
 
@@ -47,23 +50,28 @@ def login():
 def facebook_authorized():
     resp = facebook.authorized_response()
     if resp is None:
-        return 'Access denied: reason=%s error=%s' % (
-            request.args['error_reason'],
-            request.args['error_description']
-        )
+        # return 'Access denied: reason=%s error=%s' % (
+        #     request.args['error_reason'],
+        #     request.args['error_description']
+        # )
+        return abort(401)
     if isinstance(resp, client.OAuthException):
-        return 'Access denied: %s' % resp.message
+        # return 'Access denied: %s' % resp.message
+        return abort(401)
 
     session['facebook_token'] = (resp['access_token'], '')
     try:
         me = facebook.get('/me?fields=id,name,email,link')
+        user = get_user(me.data['id'])
+        login_user(user)
     except client.OAuthException:
-        return 'Access denied: %s' % resp.message
+        return abort(401)
 
     # client_id = request.args.get('client_id')
     # scope = request.args.get('scope')
     # redirect_uri = request.args.get('redirect_uri')
     # response_type = request.args.get('response_type')
+
     return redirect(request.args.get('next'))
 
 
