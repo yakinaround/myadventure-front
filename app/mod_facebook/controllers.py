@@ -3,16 +3,18 @@ controllers.py
 
 Facebook module controllers.
 """
-from flask import Blueprint, url_for, request, session, Response, redirect, abort
-from flask.ext.oauthlib.client import OAuthException
+from flask import Blueprint, url_for, request, session, redirect, abort
 from flask_login import login_user
+from flask.ext.oauthlib.client import OAuthException
 from flask_oauthlib import client
 
 from app.mod_user.models import User
+from app.mod_auth.models import MyAdventure
 
 mod_facebook = Blueprint('facebook', __name__, url_prefix='/facebook')
 
 oauth = client.OAuth()
+api = MyAdventure()
 
 
 @mod_facebook.record_once
@@ -61,11 +63,25 @@ def facebook_authorized():
         # return 'Access denied: %s' % resp.message
         return abort(401)
 
-    session['facebook_token'] = (resp['access_token'], '')
+    access_token = resp['access_token']
+
+    session['facebook_token'] = (access_token, '')
     try:
-        me = facebook.get('/me?fields=id,name,email,link')
-        user = User()
+        me = facebook.get('/me?fields=id')
+        facebook_id = me.data['id']
+
+        token = api.get_token(facebook_id, access_token)['access_token']
+
+        res = api.get('/user/', token=token)
+
+        user_id = res['user']['_id']
+        email = res['user']['email']
+
+        user = User(user_id)
+        user.email = email
+
         login_user(user)
+        session[str(user_id)] = user
     except client.OAuthException:
         return abort(401)
 
@@ -76,8 +92,3 @@ def facebook_authorized():
 
     return redirect(request.args.get('next'))
 
-
-@mod_facebook.route('/me')
-def me():
-    me = facebook.get('/me?fields=id,name,email,link')
-    return Response('Logged in as id=%s name=%s email=%s redirect=%s' % (me.data.get('id'), me.data.get('name'), me.data.get('email'), request.args.get('next')))
