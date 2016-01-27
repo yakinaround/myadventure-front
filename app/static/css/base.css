@@ -94,3 +94,7 @@ a:after {
     color: white;
     font-size: 18px;
 }
+
+.profile button {
+    margin-top: 7.5px;
+}

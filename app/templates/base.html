@@ -38,6 +38,18 @@
                         <li><a href="{% if active_page != "index" %}/{% endif %}#maps" class="smothScroll">Maps</a></li>
                         <li><a href="{% if active_page != "index" %}/{% endif %}#contact" class="smothScroll">Contact</a></li>
                     </ul>
+                    {% if current_user.is_authenticated %}
+                    <div class="dropdown pull-right profile">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="menu">
+                            <li><a href="/user">Profile</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/logout">Logout</a></li>
+                        </ul>
+                    </div>
+                    {% endif %}
                 </div><!--/.nav-collapse -->
             </div>
         </div>

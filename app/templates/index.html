@@ -20,13 +20,19 @@
             </div>
         </div>
         <div class="row centered header-buttons">
-            <div class="col-lg-2 col-lg-offset-4">
+            <div class="col-lg-3 col-lg-offset-3">
                 <!-- <img src="img/app-store-badge.png" class="img-responsive center-block" alt=""/> -->
                 <a href="#"><button class="btn btn-lg btn-success">GET THE APP</button></a>
             </div>
-            <div class="col-lg-2">
+            {% if not current_user.is_authenticated %}
+            <div class="col-lg-3">
                 <a href="/login"><button class="btn btn-lg btn-success">LOG IN</button></a>
             </div>
+            {% else %}
+            <div class="col-lg-3">
+                <a href="/user"><button class="btn btn-lg btn-success">MY ADVENTURES</button></a>
+            </div>
+            {% endif %}
         </div>
     </div> <!--/ .container -->
 </div><!--/ #header -->

@@ -68,6 +68,7 @@ def login():
 @login_required
 def logout():
     logout_user()
+    session.clear()
     next = request.args.get('next')
     return redirect(next or url_for('index.index'))
 

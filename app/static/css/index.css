@@ -72,9 +72,9 @@
 
 /* Sign Up Button */
 .header-buttons button {
-    width: 165px !important;
+    width: 185px !important;
     height: 50px !important;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 }
 
 .header-title {
