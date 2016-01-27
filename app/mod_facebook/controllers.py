@@ -7,7 +7,7 @@ from flask import Blueprint, url_for, request, session, Response, redirect, abor
 from flask_login import login_user
 from flask_oauthlib import client
 
-from app.mod_user.models import get_user
+from app.mod_user.models import User
 
 mod_facebook = Blueprint('facebook', __name__, url_prefix='/facebook')
 
@@ -15,7 +15,7 @@ oauth = client.OAuth()
 
 
 @mod_facebook.record_once
-def register_facebook(state):
+def on_load(state):
     global facebook
 
     oauth.init_app(state.app)
@@ -63,7 +63,7 @@ def facebook_authorized():
     session['facebook_token'] = (resp['access_token'], '')
     try:
         me = facebook.get('/me?fields=id,name,email,link')
-        user = get_user(me.data['id'])
+        user = User()
         login_user(user)
     except client.OAuthException:
         return abort(401)

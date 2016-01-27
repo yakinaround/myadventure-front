@@ -3,29 +3,28 @@ controllers.py
 
 API module controllers.
 """
-from flask import Blueprint, url_for, request, session, jsonify, current_app
+from flask import Blueprint, url_for, request, session, jsonify
 from flask_oauthlib import client
 
 mod_api = Blueprint('api', __name__, url_prefix='/api')
 
-oauth = client.OAuth(current_app)
-
-remote = None
+oauth = client.OAuth()
 
 
-@mod_api.before_app_first_request
-def register_remote():
+@mod_api.record_once
+def on_load(state):
     global remote
 
+    oauth.init_app(state.app)
     remote = oauth.remote_app(
         'remote',
-        consumer_key=current_app.config['API_CLIENT_ID'],
-        consumer_secret=current_app.config['API_CLIENT_SECRET'],
+        consumer_key=state.app.config['API_CLIENT_ID'],
+        consumer_secret=state.app.config['API_CLIENT_SECRET'],
         request_token_params={'scope': 'email'},
-        base_url=current_app.config['API_URL'] + '/api/v1',
+        base_url=state.app.config['API_URL'] + '/api/v1',
         request_token_url=None,
-        access_token_url=current_app.config['API_URL'] + '/oauth/token',
-        authorize_url=current_app.config['API_URL'] + '/oauth/authorize',
+        access_token_url=state.app.config['API_URL'] + '/oauth/token',
+        authorize_url=state.app.config['API_URL'] + '/oauth/authorize',
         access_token_method='POST'
     )
 

@@ -1,7 +1,7 @@
 """
-models.py
+forms.py
 
-Login module models.
+Login module forms.
 """
 
 from flask_wtf import Form
