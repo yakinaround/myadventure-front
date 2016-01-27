@@ -1,5 +1,7 @@
-from flask import Flask, render_template
 import os
+import redis
+from flask import Flask, render_template
+from flask.ext.session import Session
 
 from app.mod_index.controllers import mod_index
 from app.mod_map.controllers import mod_map
@@ -11,6 +13,11 @@ from app.mod_user.controllers import mod_user
 app = Flask(__name__, static_folder=os.getcwd() + '/app/static', static_url_path='', template_folder=os.getcwd() + '/app/templates')
 
 app.config.from_pyfile('config.py', silent=True)
+
+r = redis.Redis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'])
+app.config['SESSION_REDIS'] = r
+
+Session(app)
 
 
 @app.errorhandler(400)

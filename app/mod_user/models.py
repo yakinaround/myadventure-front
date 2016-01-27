@@ -9,10 +9,12 @@ api = MyAdventure()
 
 
 class User:
-    def __init__(self, token):
-        res = api.get('/user/', token=token)
-        self.id = token
-        self.email = res['user']['email']
+    email = None
+    facebook_id = None
+    name = None
+
+    def __init__(self, user_id):
+        self.id = user_id
 
     @property
     def is_active(self):

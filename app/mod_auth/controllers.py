@@ -3,9 +3,8 @@ controllers.py
 
 Login module controllers.
 """
-from flask import Blueprint, render_template, redirect, request, abort, url_for
-from flask_login import login_user, LoginManager
-from werkzeug.exceptions import Unauthorized
+from flask import Blueprint, render_template, redirect, request, abort, url_for, session
+from flask_login import login_user, LoginManager, login_required, logout_user
 
 from app.mod_auth.models import MyAdventure
 from app.mod_user.models import User
@@ -24,10 +23,7 @@ def next_is_valid(next):
 
 @login_manager.user_loader
 def user_loader(user_id):
-    try:
-        user = User(user_id)
-    except Unauthorized:
-        return None
+    user = session.get(str(user_id), None)
     return user
 
 
@@ -47,7 +43,16 @@ def login():
 
             token = api.get_token(email, password)['access_token']
 
-            user = User(token)
+            res = api.get('/user/', token=token)
+
+            user_id = res['user']['_id']
+            email = res['user']['email']
+
+            user = User(user_id)
+            user.email = email
+
+            session[str(user_id)] = user
+
             login_user(user)
 
             next = request.args.get('next')
@@ -57,6 +62,14 @@ def login():
             return redirect(next or url_for('user.user'))
         return abort(400)
     return render_template('auth/login.html', form=form)
+
+
+@mod_auth.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    next = request.args.get('next')
+    return redirect(next or url_for('index.index'))
 
 
 @mod_auth.route('/signup', methods=['POST'])
