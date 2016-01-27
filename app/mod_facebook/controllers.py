@@ -4,6 +4,7 @@ controllers.py
 Facebook module controllers.
 """
 from flask import Blueprint, url_for, request, session, Response, redirect, abort
+from flask.ext.oauthlib.client import OAuthException
 from flask_login import login_user
 from flask_oauthlib import client
 
@@ -21,15 +22,15 @@ def on_load(state):
     oauth.init_app(state.app)
 
     facebook = oauth.remote_app(
-            'facebook',
-            consumer_key=state.app.config['FACEBOOK_APP_ID'],
-            consumer_secret=state.app.config['FACEBOOK_APP_SECRET'],
-            request_token_params={'scope': 'email'},
-            base_url='https://graph.facebook.com',
-            request_token_url=None,
-            access_token_url='/oauth/access_token',
-            access_token_method='GET',
-            authorize_url='https://www.facebook.com/dialog/oauth'
+        'facebook',
+        consumer_key=state.app.config['FACEBOOK_APP_ID'],
+        consumer_secret=state.app.config['FACEBOOK_APP_SECRET'],
+        request_token_params={'scope': 'email'},
+        base_url='https://graph.facebook.com',
+        request_token_url=None,
+        access_token_url='/oauth/access_token',
+        access_token_method='GET',
+        authorize_url='https://www.facebook.com/dialog/oauth'
     )
 
     @facebook.tokengetter
@@ -56,7 +57,7 @@ def facebook_authorized():
         #     request.args['error_description']
         # )
         return abort(401)
-    if isinstance(resp, client.OAuthException):
+    if isinstance(resp, OAuthException):
         # return 'Access denied: %s' % resp.message
         return abort(401)
 
