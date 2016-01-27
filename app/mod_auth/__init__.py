@@ -1,0 +1,4 @@
+"""
+Initialize auth module
+
+"""

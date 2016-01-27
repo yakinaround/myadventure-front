@@ -1,4 +1,0 @@
-"""
-Initialize login module
-
-"""

@@ -3,9 +3,10 @@ import os
 
 from app.mod_index.controllers import mod_index
 from app.mod_map.controllers import mod_map
-from app.mod_api.controllers import mod_api
 from app.mod_facebook.controllers import mod_facebook
-from app.mod_login.controllers import mod_login
+from app.mod_auth.controllers import mod_auth
+from app.mod_recent.controllers import mod_recent
+from app.mod_user.controllers import mod_user
 
 app = Flask(__name__, static_folder=os.getcwd() + '/app/static', static_url_path='', template_folder=os.getcwd() + '/app/templates')
 
@@ -36,7 +37,8 @@ def favicon():
 
 # Registering module blueprints
 app.register_blueprint(mod_index)
-app.register_blueprint(mod_api)
 app.register_blueprint(mod_map)
 app.register_blueprint(mod_facebook)
-app.register_blueprint(mod_login)
+app.register_blueprint(mod_recent)
+app.register_blueprint(mod_user)
+app.register_blueprint(mod_auth)

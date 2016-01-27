@@ -1,5 +1,0 @@
-"""
-Initialize api module
-
-"""
-

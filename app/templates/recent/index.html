@@ -6,9 +6,6 @@
 {% endblock %}
 
 {% block main %}
-
-<!-- features -->
-<div class="features">
     <div class="container">
         <div class="row centered">
             <h1>Recent adventures.</h1>
@@ -17,7 +14,7 @@
             {% for adventure in adventures %}
             <div class="row">
                 <div class="col-lg-4 col-lg-offset-1">
-                    <img src="img/item-01.png" class="img-responsive center-block" alt="">
+                    <img src="/img/item-01.png" class="img-responsive center-block" alt="">
                 </div>
                 <div class="col-lg-4">
                     <h2>
@@ -34,7 +31,6 @@
         </div>
         <br>
     </div> <!--/ .container -->
-</div>
 {% endblock %}
 
 {% block footer %}
