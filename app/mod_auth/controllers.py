@@ -3,7 +3,7 @@ controllers.py
 
 Login module controllers.
 """
-from flask import Blueprint, render_template, redirect, request, abort, url_for, session
+from flask import Blueprint, render_template, redirect, request, abort, url_for, session, current_app
 from flask_login import login_user, LoginManager, login_required, logout_user
 
 from app.mod_auth.models import MyAdventure
@@ -80,9 +80,7 @@ def signup():
         email = request.form.get('email')
         password = request.form.get('password')
 
-        api.post('/user/', {"email": email, "password": password})
+        api.post('/user/', {"email": email, "password": password, "client_id": current_app.config['API_CLIENT_ID']})
 
-        next = request.args.get('next')
-
-        return redirect(url_for('.login'), code=307, next=next)
+        return redirect(url_for('.login'), code=307)
     return abort(400)
