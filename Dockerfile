@@ -22,7 +22,7 @@ RUN service supervisor stop
 
 # create a virtual environment and install all dependencies from pypi
 RUN virtualenv /opt/venv
-ADD ./requirements.txt /opt/venv/requirements.txt
+ADD requirements.txt /opt/venv/requirements.txt
 RUN /opt/venv/bin/pip install -r /opt/venv/requirements.txt
 
 # install gunicorn
@@ -36,7 +36,7 @@ RUN pip install supervisor-stdout
 
 # file management, everything after an ADD is uncached, so we do it as late as
 # possible in the process.
-ADD ./Docker/supervisord.conf /etc/supervisord.conf
+ADD supervisord.conf /etc/supervisord.conf
 
 # start supervisor to run our wsgi server
 CMD supervisord -c /etc/supervisord.conf -n
