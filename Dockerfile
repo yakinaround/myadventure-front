@@ -15,7 +15,7 @@ RUN apt-get update --fix-missing
 RUN apt-get install -y build-essential git
 RUN apt-get install -y python python-dev python-setuptools
 RUN apt-get install -y python-pip python-virtualenv
-RUN apt-get install -y nginx supervisor
+RUN apt-get install -y supervisor
 
 # stop supervisor service as we'll run it manually
 RUN service supervisor stop
@@ -37,10 +37,6 @@ RUN pip install supervisor-stdout
 # file management, everything after an ADD is uncached, so we do it as late as
 # possible in the process.
 ADD ./Docker/supervisord.conf /etc/supervisord.conf
-ADD ./Docker/nginx.conf /etc/nginx/nginx.conf
-
-# restart nginx to load the config
-RUN service nginx stop
 
 # start supervisor to run our wsgi server
 CMD supervisord -c /etc/supervisord.conf -n
