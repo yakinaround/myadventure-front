@@ -14,5 +14,5 @@ api = MyAdventure()
 
 @mod_recent.route('/')
 def recent():
-    adventures = api.get('/adventure')
+    adventures = api.get('/adventure/')
     return render_template('recent/index.html', adventures=adventures['adventures'])
