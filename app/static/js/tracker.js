@@ -24,7 +24,7 @@
         trackerLayer = new L.layerGroup([]),
         charityLayer = new L.layerGroup([]),
         messageLayer = new L.layerGroup([]),
-        pointUrl = apiUrl + '/point/' + adventure;
+        pointUrl = apiUrl + '/adventure/' + slug + '/point';
 
 	var photoIcon = L.AwesomeMarkers.icon({
 		prefix: 'fa',
@@ -91,7 +91,7 @@
 	/**
 	* The addMarker function adds a marker to a list.
 	*/
-	function addMarker(lat, lng, timestamp,title, desc, resource, type) {
+	function addMarker(lat, lng, timestamp, title, message, elevation, direction, speed, resource, type) {
 		var icon = defaultIcon;
 
 		var content = ""
@@ -103,12 +103,30 @@
 		}
 
 		if (type === 'car' || type === 'tracker') {
-			content = content.concat("<p>{0}</p>".format(timestamp));
+			let d = new Date(Date.parse(timestamp))
+			content = content.concat("<p>{0}</p>".format(d.toString()));
 		}
 
-		if (desc) {
-			content = content.concat("<p>{0}</p>".format(desc));
+		if (message) {
+			content = content.concat("<p>{0}</p>".format(message));
 		}
+
+		if (elevation || direction || speed) {
+			content = content.concat("<p>")
+			if (elevation) {
+				content = content.concat("Elevation: {0}<br>".format(elevation));
+			}
+
+			if (direction) {
+				content = content.concat("Direction: {0}<br>".format(direction));
+			}
+
+			if (speed) {
+				content = content.concat("Speed: {0}<br>".format(speed));
+			}
+			content = content.concat("</p>")
+		}
+		
 
 		if (type === 'photo') {
 			if (resource) {
@@ -157,17 +175,19 @@
 	*/
 	function loadPoints() {
 
-		$.getJSON(pointUrl + '/video', function(points) {
+		$.getJSON(pointUrl + '/video/', function(points) {
 			if(points.length > 0) {
 				$.each(points, function (index, point) {
 					if(!point['hide'] && point['latitude'] && point['longitude']) {
-						videoLayer.addLayer(addMarker(parseFloat(point['latitude']), parseFloat(point['longitude']), point['timestamp'], point['title'], point['desc'], point['resource'], 'video'));
+						videoLayer.addLayer(addMarker(parseFloat(point['latitude']), parseFloat(point['longitude']), point['timestamp'], point['title'], point['desc'], point['elevation'], point['direction'], point['speed'], point['resource'], 'video'));
 					}
 				});
 			}
 		});
 
-		$.getJSON(pointUrl + '/photo', function(points) {
+		$.getJSON(pointUrl + '/photo/', function(json) {
+			let points = json.points;
+
 			if(points.length > 0) {
 
 				var photoCluster = L.photo.cluster().on('click', function (event) {
@@ -186,7 +206,7 @@
 
 				$.each(points, function (index, point) {
 					if(!point['hide'] && point['latitude'] && point['longitude']) {
-						// photoLayer.addLayer(addMarker(parseFloat(point['latitude']), parseFloat(point['longitude']), point['timestamp'], point['title'], point['desc'], point['resource'], 'photo'));
+						// photoLayer.addLayer(addMarker(parseFloat(point['latitude']), parseFloat(point['longitude']), point['timestamp'], point['title'], point['desc'], point['elevation'], point['direction'], point['speed'], point['resource'], 'photo'));
 						photos.push({
 							lat: point['latitude'],
 							lng: point['longitude'],
@@ -205,37 +225,45 @@
 			}
 		});
 
-		$.getJSON(pointUrl + '/blog', function(points) {
+		$.getJSON(pointUrl + '/blog/', function(json) {
+			let points = json.points;
+
 			if(points.length > 0) {
 				$.each(points, function (index, point) {
 					if(!point['hide'] && point['latitude'] && point['longitude']) {
-						blogLayer.addLayer(addMarker(parseFloat(point['latitude']), parseFloat(point['longitude']), point['timestamp'], point['title'], point['desc'], point['resource'], 'blog'));
+						blogLayer.addLayer(addMarker(parseFloat(point['latitude']), parseFloat(point['longitude']), point['timestamp'], point['title'], point['desc'], point['elevation'], point['direction'], point['speed'], point['resource'], 'blog'));
 					}
 				});
 			}
 		});
 
-		$.getJSON(pointUrl + '/charity', function(points) {
+		$.getJSON(pointUrl + '/charity/', function(json) {
+			let points = json.points;
+
 			if(points.length > 0) {
 				$.each(points, function (index, point) {
 					if(!point['hide'] && point['latitude'] && point['longitude']) {
-						charityLayer.addLayer(addMarker(parseFloat(point['latitude']), parseFloat(point['longitude']), point['timestamp'], point['title'], point['desc'], point['resource'], 'charity'));
+						charityLayer.addLayer(addMarker(parseFloat(point['latitude']), parseFloat(point['longitude']), point['timestamp'], point['title'], point['desc'], point['elevation'], point['direction'], point['speed'], point['resource'], 'charity'));
 					}
 				});
 			}
 		});
 
-		$.getJSON(pointUrl + '/message', function(points) {
+		$.getJSON(pointUrl + '/message/', function(json) {
+			let points = json.points;
+
 			if(points.length > 0) {
 				$.each(points, function (index, point) {
 					if(!point['hide'] && point['latitude'] && point['longitude']) {
-						messageLayer.addLayer(addMarker(parseFloat(point['latitude']), parseFloat(point['longitude']), point['timestamp'], point['title'], point['desc'], point['resource'], 'message'));
+						messageLayer.addLayer(addMarker(parseFloat(point['latitude']), parseFloat(point['longitude']), point['timestamp'], point['title'], point['desc'], point['elevation'], point['direction'], point['speed'], point['resource'], 'message'));
 					}
 				});
 			}
 		});
 
-		$.getJSON(pointUrl + '/route', function(points) {
+		$.getJSON(pointUrl + '/route/', function(json) {
+			let points = json.points;
+
 			if(points.length > 0) {
 
 				var route = new L.MarkerClusterGroup({
@@ -264,17 +292,19 @@
 				var finish = route_points.pop();
 
 				$.each(route_points, function(index, point) {
-					route.addLayer(addMarker(parseFloat(point['latitude']), parseFloat(point['longitude']), point['timestamp'], point['title'], point['desc'], point['resource'], 'route'));
+					route.addLayer(addMarker(parseFloat(point['latitude']), parseFloat(point['longitude']), point['timestamp'], point['title'], point['desc'], point['elevation'], point['direction'], point['speed'], point['resource'], 'route'));
 				});
 
 				routeLayer.addLayer(L.polyline(line_points, polyline_options));
 				routeLayer.addLayer(route);
-				routeLayer.addLayer(addMarker(parseFloat(start['latitude']), parseFloat(start['longitude']), start['timestamp'], start['title'], start['desc'], start['resource'], 'flag'));
-				routeLayer.addLayer(addMarker(parseFloat(finish['latitude']), parseFloat(finish['longitude']), finish['timestamp'], finish['title'], finish['desc'], finish['resource'], 'flag'));
+				routeLayer.addLayer(addMarker(parseFloat(start['latitude']), parseFloat(start['longitude']), start['timestamp'], start['title'], start['desc'], start['elevation'], start['direction'], start['speed'], start['resource'], 'flag'));
+				routeLayer.addLayer(addMarker(parseFloat(finish['latitude']), parseFloat(finish['longitude']), finish['timestamp'], finish['title'], finish['desc'], finish['elevation'], finish['direction'], finish['speed'], finish['resource'], 'flag'));
 			}
 		});
 
-		$.getJSON(pointUrl + '/tracker', function(points) {
+		$.getJSON(pointUrl + '/tracker/', function(json) {
+			let points = json.points;
+
 			if(points.length > 0) {
 
 				var tracker = new L.MarkerClusterGroup({
@@ -302,12 +332,12 @@
 				var current = tracker_points.pop();
 
 				$.each(tracker_points, function (index, point) {
-					tracker.addLayer(addMarker(parseFloat(point['latitude']), parseFloat(point['longitude']), point['timestamp'], point['title'], point['desc'], point['resource'], 'tracker'));
+					tracker.addLayer(addMarker(parseFloat(point['latitude']), parseFloat(point['longitude']), point['timestamp'], point['title'], point['desc'], point['elevation'], point['direction'], point['speed'], point['resource'], 'tracker'));
 				});
 
 				trackerLayer.addLayer(L.polyline(line_points, polyline_options));
 				trackerLayer.addLayer(tracker);
-				trackerLayer.addLayer(addMarker(parseFloat(current['latitude']), parseFloat(current['longitude']), current['timestamp'], current['title'], current['desc'], current['resource'], 'car'));
+				trackerLayer.addLayer(addMarker(parseFloat(current['latitude']), parseFloat(current['longitude']), current['timestamp'], current['title'], current['desc'], current['elevation'], current['direction'], current['speed'], current['resource'], 'car'));
 			}
 		});
 	}
