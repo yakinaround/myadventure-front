@@ -20,13 +20,16 @@
             </div>
         </div>
         <div class="row centered header-buttons">
-            <div class="col-lg-3 col-lg-offset-3">
-                <!-- <img src="img/app-store-badge.png" class="img-responsive center-block" alt=""/> -->
-                <a href="#"><button class="btn btn-lg btn-success">GET THE APP</button></a>
-            </div>
             {% if not current_user.is_authenticated %}
-            <div class="col-lg-3">
-                <a href="/login"><button class="btn btn-lg btn-success">LOG IN</button></a>
+            <!-- <div class="col-lg-3 col-lg-offset-3"> -->
+                <!-- <img src="img/app-store-badge.png" class="img-responsive center-block" alt=""/> -->
+                <!-- <a href="#"><button class="btn btn-lg btn-success">GET THE APP</button></a> -->
+            <!-- </div> -->
+            <!-- <div class="col-lg-3"> -->
+                <!-- <a href="/login"><button class="btn btn-lg btn-success">LOG IN</button></a> -->
+            <!-- </div> -->
+            <div class="col-lg-4 col-lg-offset-4">
+                <a href="/beta"><button class="btn btn-lg btn-success">BETA SIGN UP</button></a>
             </div>
             {% else %}
             <div class="col-lg-3">
@@ -48,17 +51,17 @@
             <div class="col-lg-4">
                 <img src="img/intro01.png" alt="">
                 <h3>Tracking</h3>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <p>Track your location, anytime, anywhere! Everythign you need is here!</p>
             </div>
             <div class="col-lg-4">
                 <img src="img/intro02.png" alt="">
                 <h3>Sharing</h3>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <p>Share every detail of your adventure with the world, from beatiful photos to your road journal.</p>
             </div>
             <div class="col-lg-4">
                 <img src="img/intro03.png" alt="">
                 <h3>Social</h3>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <p>Connect with all your social networks and delight your followers.</p>
             </div>
         </div>
         <br>
@@ -85,17 +88,17 @@
                 <div class="accordion ac" id="accordion2">
                     <div>
                         <p class="feature-title">Mobile Tracking</p>
-                        <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                        <p>No need for expensive tracking devices and hefty monthly fees. Use your own Android or iOS device to track your location, post pictures, blog and share all the details from your adventure. It's the perfect adventure companion.</p>
                     </div>
                     <br>
                     <div>
                         <p class="feature-title">Offline Access</p>
-                        <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                        <p>No internet, no problem! We know your adventure will take you to remote places, where internet connectivity is flaky at best. Ou app was designed specifically with that in mind. Even without connection for days, you will be able to track your location, post photos, blog and more. Once you're back online, everything will be synchronized, automatically.</p>
                     </div>
                     <br>
                     <div>
-                        <p class="feature-title">First Class Design</p>
-                        <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                        <p class="feature-title">Poor Networks</p>
+                        <p>We know that even when there's internet connection, it might be unstable and slow. That's why we developed our app to work in the poorest network conditions. Doesn't matter how bad your connection is, you will be able to share your adventure.</p>
                     </div>
                     <br>
                 </div><!-- accordion -->
@@ -104,12 +107,17 @@
     </div><!--/ .container -->
 </div><!--/ #features -->
 
-<!-- mobile -->
+<!-- laptop -->
 <section id="maps" name="maps"></section>
 <div class="showcase">
     <div class="container">
         <div class="row">
             <h1 class="centered">Beautifully crafted maps.</h1>
+            <br>
+            <br>
+            <h3>Maps are the core of our tool. From your map, your followers can see where you've been, check your photos, your blog posts and every other detail from your adventure.</h3>
+            <h3>That's why we spent countless hours perfecting it!</h3>
+            <br>
             <br>
             <div class="col-lg-8 col-lg-offset-2">
                 <div id="carousel-example-generic" class="carousel slide">
@@ -134,7 +142,7 @@
         <br>
         <br>
         <br>
-        <h2 class="centered">Check out some <a href="/recent">recent adventures</a>.</h2>
+        <h2 class="centered">Check out some <a href="/recent">adventures</a> that were recently shared!</h2>
         <br>
         <br>
     </div><!-- /container -->
