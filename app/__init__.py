@@ -1,8 +1,13 @@
+"""
+App init.
+
+"""
+
 import os
 import redis
+import logging
 from flask import Flask, render_template
 from flask.ext.session import Session
-
 from app.mod_index.controllers import mod_index
 from app.mod_map.controllers import mod_map
 from app.mod_facebook.controllers import mod_facebook
@@ -21,26 +26,41 @@ Session(app)
 
 
 @app.errorhandler(400)
-def bad_request(e):
+def bad_request(err):
     """Return a custom 400 error."""
+    logging.warning(err)
     return 'The browser (or proxy) sent a request that this server could not understand.', 400
 
 
 @app.errorhandler(404)
-def page_not_found(e):
+def page_not_found(err):
     """Return a custom 404 error."""
+    logging.warning(err)
     return render_template('404.html')
 
 
 @app.errorhandler(500)
-def internal_error(e):
+def internal_error(err):
     """Return a custom 500 error."""
-    return 'Sorry, unexpected error: {}'.format(e), 500
+    logging.error(err)
+    return 'Sorry, unexpected error: {}'.format(err), 500
 
 
 @app.route('/favicon.ico')
 def favicon():
+    """Favicon file."""
     return app.send_static_file('img/map.ico')
+
+
+@app.route('/beta')
+def beta_signup():
+    """Beta signup page."""
+    return render_template('beta/index.html')
+
+@app.route('/beta/thanks')
+def beta_thanks():
+    """Beta thank you page."""
+    return render_template('beta/thanks.html')
 
 # Registering module blueprints
 app.register_blueprint(mod_index)

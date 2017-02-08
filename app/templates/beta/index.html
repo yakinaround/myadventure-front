@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Beta invite{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row centered">
+            <h1>Beta invite.</h1>
+            <br>
+            <div class="col-md-8 col-md-offset-2">
+                <h3>MyAdventure a new platform to share your adventures with the world. It's still quite new, so we're rolling it out slowly to some beta users first.</h3>
+                <h3>Enter your email below and we'll put you on our invite list!</h3>
+            </div>
+            <div class="col-md-4 col-md-offset-4">
+                <br>
+                <form action="https://formspree.io/hello@myadventure.io" method="POST">
+                    <div class="form-group">
+                        <label for="email">Your Email</label>
+                        <input type="email" name="email" class="form-control" id="email" placeholder="Your Email">
+                    </div>
+                    <br>
+                    <input type="hidden" name="_next" value="//myadventure.io/beta/thanks" />
+                    <button type="submit" class="btn btn-success">REQUEST BETA</button>
+                </form>
+            </div>
+        </div>
+        <br>
+    </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
