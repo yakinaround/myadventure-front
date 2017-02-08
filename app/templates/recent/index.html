@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Recent{% endblock %}
+{% block title %}Recent adventures{% endblock %}
 
 {% block head %}
 {% endblock %}
@@ -9,34 +9,26 @@
     <div class="container">
         <div class="row centered">
             <h1>Recent adventures.</h1>
-            <br>
-            <br>
-            {% for adventure in adventures %}
-            <div class="row">
-                <div class="col-lg-4 col-lg-offset-1">
-                    <img src="/img/item-01.png" class="img-responsive center-block" alt="">
-                </div>
-                <div class="col-lg-4">
-                    <h2>
-                        <a href="/{{ adventure['_id'] }}">{{ adventure['name'] }}</a>
-                    </h2>
-                    <p class="lead">Adventure Description</p>
-
-                </div>
-            </div>
-            <br>
-            <br>
-            {% endfor %}
-            <br>
+        </div>
+        <br>
+        <div class="row">
+            <h3>Our users love to share those amazing moments. Here are a just a few adventures that were shared by our users.</h3>
+        </div>
+        <br>
+        {% for adventure in adventures %}
+        <div class="row">
+            <h3>
+                <a href="/adventure/{{ adventure['_id'] }}">&middot; {{ adventure['name'] }}</a>
+            </h3>
+            {% if adventure['description'] %}
+            <h3>{adventure['description']}</h3>
+            {% endif %}
+        </div>
+        {% endfor %}
         </div>
         <br>
     </div> <!--/ .container -->
 {% endblock %}
 
 {% block footer %}
-    <script>
-        $('.carousel').carousel({
-            interval: 3500
-        })
-    </script>
 {% endblock %}
