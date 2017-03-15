@@ -173,7 +173,7 @@
 	/**
 	* The loadPoints function loads all points from the API and adds them to the map.
 	*/
-	function loadPoints() {
+	function loadPoints(map) {
 
 		$.getJSON(pointUrl + '/video/', function(points) {
 			if(points.length > 0) {
@@ -338,6 +338,8 @@
 				trackerLayer.addLayer(L.polyline(line_points, polyline_options));
 				trackerLayer.addLayer(tracker);
 				trackerLayer.addLayer(addMarker(parseFloat(current['latitude']), parseFloat(current['longitude']), current['timestamp'], current['title'], current['desc'], current['elevation'], current['direction'], current['speed'], current['resource'], 'car'));
+
+				map.panTo(new L.LatLng(parseFloat(current['latitude']), parseFloat(current['longitude'])));
 			}
 		});
 	}
@@ -386,7 +388,7 @@
 
 		new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
 
-		loadPoints();
+		loadPoints(map);
 	}
 
 	/**
