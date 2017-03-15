@@ -21,7 +21,10 @@
         videoLayer = new L.layerGroup([]),
         blogLayer = new L.layerGroup([]),
         routeLayer = new L.layerGroup([]),
-        trackerLayer = new L.layerGroup([]),
+        androidTrackerLayer = new L.layerGroup([]),
+				arduinoTrackerLayer = new L.layerGroup([]),
+				delormeTrackerLayer = new L.layerGroup([]),
+				unknownTrackerLayer = new L.layerGroup([]),
         charityLayer = new L.layerGroup([]),
         messageLayer = new L.layerGroup([]),
         pointUrl = apiUrl + '/adventure/' + slug + '/point';
@@ -307,15 +310,40 @@
 
 			if(points.length > 0) {
 
-				var tracker = new L.MarkerClusterGroup({
+				var android = new L.MarkerClusterGroup({
+					iconCreateFunction: function(cluster) {
+						return new L.DivIcon({ html: '<div><span>' + cluster.getChildCount() + '</span></div>', className: 'marker-cluster marker-cluster-blue', iconSize: new L.Point(40, 40) });
+					}
+				});
+
+				var arduino = new L.MarkerClusterGroup({
+					iconCreateFunction: function(cluster) {
+						return new L.DivIcon({ html: '<div><span>' + cluster.getChildCount() + '</span></div>', className: 'marker-cluster marker-cluster-blue', iconSize: new L.Point(40, 40) });
+					}
+				});
+
+				var delorme = new L.MarkerClusterGroup({
+					iconCreateFunction: function(cluster) {
+						return new L.DivIcon({ html: '<div><span>' + cluster.getChildCount() + '</span></div>', className: 'marker-cluster marker-cluster-blue', iconSize: new L.Point(40, 40) });
+					}
+				});
+
+				var unknown = new L.MarkerClusterGroup({
 					iconCreateFunction: function(cluster) {
 						return new L.DivIcon({ html: '<div><span>' + cluster.getChildCount() + '</span></div>', className: 'marker-cluster marker-cluster-blue', iconSize: new L.Point(40, 40) });
 					}
 				});
 
 				// Create array of lat,lon points.
-				var line_points = [],
-						tracker_points = [];
+				var androidLinePoints = [],
+						arduinoLinePoints = [],
+						delormeLinePoints = [],
+						unknownLinePoints = [],
+						androidTrackerPoints = [],
+						arduinoTrackerPoints = [],
+						delormeTrackerPoints = [],
+						unknownTrackerPoints = [],
+						current;
 
 				// Define polyline options
 				var polyline_options = {
@@ -324,23 +352,98 @@
 
 				$.each(points, function (index, point) {
 					if(!point['hide'] && point['latitude'] && point['longitude']) {
-						line_points.push([point['latitude'], point['longitude']]);
-						tracker_points.push(point);
+						const source = point.source;
+
+						switch(source) {
+							case 'android':
+								androidLinePoints.push([point['latitude'], point['longitude']]);
+								androidTrackerPoints.push(point);
+								break;
+							case 'arduino':
+								arduinoLinePoints.push([point['latitude'], point['longitude']]);
+								arduinoTrackerPoints.push(point);
+								break;
+							case 'adafruit':
+								arduinoLinePoints.push([point['latitude'], point['longitude']]);
+								arduinoTrackerPoints.push(point);
+							case 'delorme':
+								delormeLinePoints.push([point['latitude'], point['longitude']]);
+								delormeTrackerPoints.push(point);
+							default:
+								unknownLinePoints.push([point['latitude'], point['longitude']]);
+								unknownTrackerPoints.push(point);
+						}
 					}
 				});
 
-				var current = tracker_points.pop();
+				if (unknownTrackerPoints.length > 0) {
+					var unknownCurrent = unknownTrackerPoints.pop();
 
-				$.each(tracker_points, function (index, point) {
-					tracker.addLayer(addMarker(parseFloat(point['latitude']), parseFloat(point['longitude']), point['timestamp'], point['title'], point['desc'], point['elevation'], point['direction'], point['speed'], point['resource'], 'tracker'));
-				});
+					$.each(unknownTrackerPoints, function (index, point) {
+						unknown.addLayer(addMarker(parseFloat(point['latitude']), parseFloat(point['longitude']), point['timestamp'], point['title'], point['desc'], point['elevation'], point['direction'], point['speed'], point['resource'], 'tracker'));
+					});
 
-				trackerLayer.addLayer(L.polyline(line_points, polyline_options));
-				trackerLayer.addLayer(tracker);
-				trackerLayer.addLayer(addMarker(parseFloat(current['latitude']), parseFloat(current['longitude']), current['timestamp'], current['title'], current['desc'], current['elevation'], current['direction'], current['speed'], current['resource'], 'car'));
+					unknownTrackerLayer.addLayer(L.polyline(unknownLinePoints, polyline_options));
+					unknownTrackerLayer.addLayer(unknown);
+					unknownTrackerLayer.addLayer(addMarker(parseFloat(unknownCurrent['latitude']), parseFloat(unknownCurrent['longitude']), unknownCurrent['timestamp'], unknownCurrent['title'], unknownCurrent['desc'], unknownCurrent['elevation'], unknownCurrent['direction'], unknownCurrent['speed'], unknownCurrent['resource'], 'car'));
 
-				map.panTo(new L.LatLng(parseFloat(current['latitude']), parseFloat(current['longitude'])));
-				map.setZoom(8);
+					map.addLayer(unknownTrackerLayer);
+
+					current = unknownCurrent;
+				}
+
+				if (arduinoTrackerPoints.length > 0) {
+					var arduinoCurrent = arduinoTrackerPoints.pop();
+
+					$.each(arduinoTrackerPoints, function (index, point) {
+						arduino.addLayer(addMarker(parseFloat(point['latitude']), parseFloat(point['longitude']), point['timestamp'], point['title'], point['desc'], point['elevation'], point['direction'], point['speed'], point['resource'], 'tracker'));
+					});
+
+					arduinoTrackerLayer.addLayer(L.polyline(arduinoLinePoints, polyline_options));
+					arduinoTrackerLayer.addLayer(arduino);
+					arduinoTrackerLayer.addLayer(addMarker(parseFloat(arduinoCurrent['latitude']), parseFloat(arduinoCurrent['longitude']), arduinoCurrent['timestamp'], arduinoCurrent['title'], arduinoCurrent['desc'], arduinoCurrent['elevation'], arduinoCurrent['direction'], arduinoCurrent['speed'], arduinoCurrent['resource'], 'car'));
+
+					map.addLayer(arduinoTrackerLayer);
+
+					current = arduinoCurrent;
+				}
+
+				if (delormeTrackerPoints.length > 0) {
+					var delormeCurrent = delormeTrackerPoints.pop();
+
+					$.each(delormeTrackerPoints, function (index, point) {
+						delorme.addLayer(addMarker(parseFloat(point['latitude']), parseFloat(point['longitude']), point['timestamp'], point['title'], point['desc'], point['elevation'], point['direction'], point['speed'], point['resource'], 'tracker'));
+					});
+
+					delormeTrackerLayer.addLayer(L.polyline(delormeLinePoints, polyline_options));
+					delormeTrackerLayer.addLayer(delorme);
+					delormeTrackerLayer.addLayer(addMarker(parseFloat(delormeCurrent['latitude']), parseFloat(delormeCurrent['longitude']), delormeCurrent['timestamp'], delormeCurrent['title'], delormeCurrent['desc'], delormeCurrent['elevation'], delormeCurrent['direction'], delormeCurrent['speed'], delormeCurrent['resource'], 'car'));
+
+					map.addLayer(delormeTrackerLayer);
+
+					current = delormeCurrent;
+				}
+
+				if (androidTrackerPoints.length > 0) {
+					var androidCurrent = androidTrackerPoints.pop();
+
+					$.each(androidTrackerPoints, function (index, point) {
+						android.addLayer(addMarker(parseFloat(point['latitude']), parseFloat(point['longitude']), point['timestamp'], point['title'], point['desc'], point['elevation'], point['direction'], point['speed'], point['resource'], 'tracker'));
+					});
+
+					androidTrackerLayer.addLayer(L.polyline(androidLinePoints, polyline_options));
+					androidTrackerLayer.addLayer(android);
+					androidTrackerLayer.addLayer(addMarker(parseFloat(androidCurrent['latitude']), parseFloat(androidCurrent['longitude']), androidCurrent['timestamp'], androidCurrent['title'], androidCurrent['desc'], androidCurrent['elevation'], androidCurrent['direction'], androidCurrent['speed'], androidCurrent['resource'], 'car'));
+
+					map.addLayer(androidTrackerLayer);
+
+					current = androidCurrent;
+				}
+
+				if (current) {
+					map.panTo(new L.LatLng(parseFloat(current['latitude']), parseFloat(current['longitude'])));
+					map.setZoom(8);
+				}
 			}
 		});
 	}
@@ -357,6 +460,13 @@
 		var base = {
     	"Streets": streets,
 			"Satellite": satellite
+		};
+
+		var tracker = {
+    	"Android": androidTrackerLayer,
+			"DeLorme": delormeTrackerLayer,
+			"Arduino": arduinoTrackerLayer,
+			"Unknown": unknownTrackerLayer,
 		};
 
 		var overlays = {
@@ -382,10 +492,10 @@
 		// map.addLayer(blogLayer);
 		// map.addLayer(charityLayer);
 		// map.addLayer(routeLayer);
-		map.addLayer(trackerLayer);
 		map.addLayer(messageLayer);
 
 		L.control.layers(base, overlays, { collapsed: false, position: 'topright' }).addTo(map);
+		L.control.layers(null, tracker, { collapsed: false, position: 'topright' }).addTo(map);
 
 		new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
 
