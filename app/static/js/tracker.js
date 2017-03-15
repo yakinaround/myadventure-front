@@ -340,6 +340,7 @@
 				trackerLayer.addLayer(addMarker(parseFloat(current['latitude']), parseFloat(current['longitude']), current['timestamp'], current['title'], current['desc'], current['elevation'], current['direction'], current['speed'], current['resource'], 'car'));
 
 				map.panTo(new L.LatLng(parseFloat(current['latitude']), parseFloat(current['longitude'])));
+				map.setZoom(8);
 			}
 		});
 	}
@@ -368,8 +369,8 @@
 		};
 
 		var map = new L.map('map', {
-    	center: [43.2358808,51.7155101],
-    	zoom: 4,
+    	center: [0.0,0.0],
+    	zoom: 1,
     	layers: streets,
 			minZoom: 3,
 			maxZoom: 18,
