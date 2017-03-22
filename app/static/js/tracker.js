@@ -487,8 +487,8 @@
 			zoomControl: false
 		});
 
-		// map.addLayer(photoLayer);
-		// map.addLayer(videoLayer);
+		map.addLayer(photoLayer);
+		map.addLayer(videoLayer);
 		// map.addLayer(blogLayer);
 		// map.addLayer(charityLayer);
 		// map.addLayer(routeLayer);
