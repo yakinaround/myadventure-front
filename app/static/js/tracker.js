@@ -108,7 +108,7 @@
 		if (type === 'car' || type === 'tracker') {
 			let d = new Date(Date.parse(timestamp))
 			content = content.concat("<p>{0}</p>".format(d.toString()));
-			content = content.concat("<p>{0}, {1}</p>".format(str(lat), str(lng)));
+			content = content.concat("<p>{0}, {1}</p>".format(lat.toString(), lng.toString()));
 		}
 
 		if (message) {
