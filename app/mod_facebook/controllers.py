@@ -5,7 +5,7 @@ Facebook module controllers.
 """
 from flask import Blueprint, url_for, request, session, redirect, abort
 from flask_login import login_user
-from flask.ext.oauthlib.client import OAuthException
+from flask_oauthlib.client import OAuthException
 from flask_oauthlib import client
 
 from app.mod_user.models import User

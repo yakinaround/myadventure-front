@@ -7,7 +7,7 @@ import os
 import redis
 import logging
 from flask import Flask, render_template
-from flask.ext.session import Session
+from flask_session import Session
 from app.mod_index.controllers import mod_index
 from app.mod_map.controllers import mod_map
 from app.mod_facebook.controllers import mod_facebook
