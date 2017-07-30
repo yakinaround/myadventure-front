@@ -15,4 +15,4 @@ api = MyAdventure()
 @mod_map.route('/<slug>')
 def map(slug):
     adventure = api.get('/adventure/' + slug)
-    return render_template('map/index.html', slug=slug, title=adventure['name'] + " | MyAdventure", api_url=current_app.config['API_URL'] + '/api/v1' )
+    return render_template('map/index.html', slug=slug, title=adventure['name'] + " | MyAdventure", api_url=current_app.config['API_URL_CLIENT'] + '/api/v1' )
