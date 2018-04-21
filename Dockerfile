@@ -1,5 +1,4 @@
 FROM ubuntu:14.04
-MAINTAINER Martin Spier <spiermar@gmail.com>
 
 # keep upstart quiet
 RUN dpkg-divert --local --rename --add /sbin/initctl
