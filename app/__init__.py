@@ -19,7 +19,7 @@ app = Flask(__name__, static_folder=os.getcwd() + '/app/static', static_url_path
 
 app.config.from_pyfile('config.py', silent=True)
 
-r = redis.Redis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'])
+r = redis.Redis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'], password=app.config['REDIS_PASSWORD'])
 app.config['SESSION_REDIS'] = r
 
 Session(app)
