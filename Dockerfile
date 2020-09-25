@@ -26,7 +26,7 @@ ADD requirements.txt /opt/venv/requirements.txt
 RUN /opt/venv/bin/pip install -r /opt/venv/requirements.txt
 
 # install gunicorn
-RUN /opt/venv/bin/pip install gunicorn
+RUN /opt/venv/bin/pip install gunicorn==19.10.0
 
 # install supervisor-stdout
 RUN pip install supervisor-stdout
