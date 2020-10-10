@@ -22,73 +22,73 @@
         blogLayer = new L.layerGroup([]),
         routeLayer = new L.layerGroup([]),
         androidTrackerLayer = new L.layerGroup([]),
-				arduinoTrackerLayer = new L.layerGroup([]),
-				delormeTrackerLayer = new L.layerGroup([]),
-				unknownTrackerLayer = new L.layerGroup([]),
+		arduinoTrackerLayer = new L.layerGroup([]),
+		delormeTrackerLayer = new L.layerGroup([]),
+		unknownTrackerLayer = new L.layerGroup([]),
         charityLayer = new L.layerGroup([]),
         messageLayer = new L.layerGroup([]),
         pointUrl = apiUrl + '/adventure/' + slug + '/point';
 
 	var photoIcon = L.AwesomeMarkers.icon({
 		prefix: 'fa',
-    icon: 'camera',
+    	icon: 'camera',
 		extraClasses: 'tracker-icon',
-    markerColor: 'blue'
+    	markerColor: 'blue'
   });
 
 	var videoIcon = L.AwesomeMarkers.icon({
 		prefix: 'fa',
-    icon: 'video-camera',
-    markerColor: 'blue'
+    	icon: 'video-camera',
+    	markerColor: 'blue'
   });
 
 	var carIcon = L.AwesomeMarkers.icon({
 		prefix: 'fa',
-    icon: 'car',
+    	icon: 'car',
 		extraClasses: 'tracker-icon',
-    markerColor: 'blue'
+    	markerColor: 'blue'
   });
 
 	var flagIcon = L.AwesomeMarkers.icon({
 		prefix: 'fa',
-    icon: 'flag-checkered',
+    	icon: 'flag-checkered',
 		extraClasses: 'tracker-icon',
-    markerColor: 'red'
+    	markerColor: 'red'
   });
 
 	var blogIcon = L.AwesomeMarkers.icon({
 		prefix: 'fa',
-    icon: 'rss',
+    	icon: 'rss',
 		extraClasses: 'tracker-icon',
-    markerColor: 'blue'
+    	markerColor: 'blue'
   });
 
 	var routeIcon = L.AwesomeMarkers.icon({
 		prefix: 'fa',
-    icon: 'road',
+    	icon: 'road',
 		extraClasses: 'tracker-icon',
-    markerColor: 'red'
+    	markerColor: 'red'
   });
 
 	var trackerIcon = L.AwesomeMarkers.icon({
 		prefix: 'fa',
-    icon: 'road',
+    	icon: 'road',
 		extraClasses: 'tracker-icon',
-    markerColor: 'blue'
+    	markerColor: 'blue'
   });
 
 	var charityIcon = L.AwesomeMarkers.icon({
 		prefix: 'fa',
-    icon: 'globe',
+    	icon: 'globe',
 		extraClasses: 'tracker-icon',
-    markerColor: 'green'
+    	markerColor: 'green'
   });
 
 	var messageIcon = L.AwesomeMarkers.icon({
 		prefix: 'fa',
-    icon: 'comment',
+    	icon: 'comment',
 		extraClasses: 'tracker-icon',
-    markerColor: 'blue'
+    	markerColor: 'blue'
   });
 
 	/**
@@ -337,14 +337,14 @@
 
 				// Create array of lat,lon points.
 				var androidLinePoints = [],
-						arduinoLinePoints = [],
-						delormeLinePoints = [],
-						unknownLinePoints = [],
-						androidTrackerPoints = [],
-						arduinoTrackerPoints = [],
-						delormeTrackerPoints = [],
-						unknownTrackerPoints = [],
-						current;
+					arduinoLinePoints = [],
+					delormeLinePoints = [],
+					unknownLinePoints = [],
+					androidTrackerPoints = [],
+					arduinoTrackerPoints = [],
+					delormeTrackerPoints = [],
+					unknownTrackerPoints = [],
+					current;
 
 				// Define polyline options
 				var polyline_options = {
@@ -442,8 +442,7 @@
 				}
 
 				if (current) {
-					map.panTo(new L.LatLng(parseFloat(current['latitude']), parseFloat(current['longitude'])));
-					map.setZoom(8);
+					map.setView({lat: parseFloat(current['latitude']), lon: parseFloat(current['longitude'])}, 8);
 				}
 			}
 		});
@@ -455,24 +454,24 @@
 	function initialize() {
 		L.mapbox.accessToken = 'pk.eyJ1IjoibXNwaWVyIiwiYSI6ImUwMmQ4OTBiNWNiMWIyZDE2MTU3MGZlYWI1MjdkMzkxIn0.3eCyZuMzgZfgDy-UznjdFA';
 
-		var streets = new L.mapbox.tileLayer('mapbox.streets');
-		var satellite = new L.mapbox.tileLayer('mapbox.satellite', { maxZoom: 14 });
+		var streets = new L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11');
+		var satellite = new L.mapbox.styleLayer('mapbox://styles/mapbox/satellite-v9', { maxZoom: 14 });
 
 		var base = {
-    	"Streets": streets,
+    		"Streets": streets,
 			"Satellite": satellite
 		};
 
 		var tracker = {
-    	"Android": androidTrackerLayer,
+    		"Android": androidTrackerLayer,
 			"DeLorme": delormeTrackerLayer,
 			"Arduino": arduinoTrackerLayer,
 			"Unknown": unknownTrackerLayer,
 		};
 
 		var overlays = {
-    	"Photos": photoLayer,
-    	"Videos": videoLayer,
+    		"Photos": photoLayer,
+    		"Videos": videoLayer,
 			"Blogs": blogLayer,
 			"Message": messageLayer,
 			"Charity": charityLayer,
@@ -480,16 +479,16 @@
 		};
 
 		var map = new L.map('map', {
-    	center: [0.0,0.0],
-    	zoom: 1,
-    	layers: streets,
+    		center: [0.0,0.0],
+    		zoom: 1,
+    		layers: streets,
 			minZoom: 3,
 			maxZoom: 18,
 			zoomControl: false
 		});
 
-		map.addLayer(photoLayer);
-		map.addLayer(videoLayer);
+		// map.addLayer(photoLayer);
+		// map.addLayer(videoLayer);
 		// map.addLayer(blogLayer);
 		// map.addLayer(charityLayer);
 		// map.addLayer(routeLayer);
